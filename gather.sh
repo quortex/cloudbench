@@ -3,12 +3,14 @@
 OUTPUT=$1.csv
 rm -f $OUTPUT
 
+echo ${PWD}
+
 for file in $(ls $1*.csv); do
     machine=$(echo $file |cut -d'-' -f 3- | rev | cut -d'.' -f 2- | rev)
     cloud=$(echo $file |cut -d'-' -f 2)
     echo "Processing $file ..."
     for line in $(cat $file); do
-        pushd ../pricing/$cloud &> /dev/null && \
+        pushd pricing/$cloud &> /dev/null && \
             ondemand=$(./price.sh $machine ondemand  | grep "Tot Price" | cut -d":" -f 2) && \
             preemptible=$(./price.sh $machine preemptible  | grep "Tot Price" | cut -d":" -f 2) && \
             oneyrcommit=$(./price.sh $machine 1yrcommit  | grep "Tot Price" | cut -d":" -f 2) && \

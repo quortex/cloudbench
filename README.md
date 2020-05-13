@@ -11,11 +11,11 @@ A debian 10 image is used with the latest official ffmpeg (from the debian repos
 - You must have a valid account on GCP, AWS and Azure
 - 
 ## How to use
-- *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [here](script/full.json))
-- The machines to test on can be edited in the "all.sh" script itself
+- *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [here](campaign.json))
+- The machines to test on can be edited in the "bench.sh" script itself
 ```console
-foo@bar:~$ ./all.sh
-foo@bar:~$ cd results && ./gather full
+foo@bar:~$ ./bench.sh campaign.json
+foo@bar:~$ ./gather.sh results/full
 ```
 
 ## TODO
