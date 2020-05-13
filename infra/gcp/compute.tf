@@ -41,11 +41,6 @@ resource "google_compute_instance" "cloudperf" {
     stop = "25"
   }
 
-  scheduling {
-    preemptible = true
-    automatic_restart = false
-  }
-
   metadata = {
     ssh-keys = "${var.ssh_user}:${file(var.ssh_pub_key_file)}"
   }
