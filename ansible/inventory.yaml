@@ -1,0 +1,3 @@
+all:
+  hosts:
+    __HOST__

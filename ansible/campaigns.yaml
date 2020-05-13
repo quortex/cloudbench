@@ -1,0 +1,20 @@
+- name: Copy script
+  copy:
+    src: ../script/campaign.sh
+    dest: /home/admin
+    owner: admin
+    mode: 0777
+- name: Copy campaign file
+  copy:
+    src: ../script/full.json
+    dest: /home/admin
+    owner: admin
+    mode: 0600      
+
+- shell: ./campaign.sh full.json > full.csv
+
+- name: Copy results
+  fetch:
+    src: /home/admin/full.csv
+    dest: ../results/full-{{ machine }}.csv
+    flat: yes

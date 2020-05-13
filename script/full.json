@@ -1,0 +1,27 @@
+{
+  "files": [
+    "https://tsduck.io/streams/france-dttv/tnt-uhf25-506MHz-2019-01-22.ts",
+    "https://tsduck.io/streams/france-dttv/tnt-uhf30-546MHz-2019-01-22.ts",
+    "https://tsduck.io/streams/france-dttv/tnt-uhf35-586MHz-2019-01-22.ts"  
+  ],
+  "profiles": [
+    "1920x1080@6000000",
+    "1280x720@4500000"
+  ],
+  "encodings": [
+    {
+      "name": "faster",
+      "deinterlacer": "yadif",
+      "framerate": "25",
+      "quality": "faster",
+      "gopsize": "50"
+    },
+    {
+      "name": "fast",
+      "deinterlacer": "yadif",
+      "framerate": "25",
+      "quality": "fast",
+      "gopsize": "50"
+    }   
+  ]
+}

@@ -1,0 +1,15 @@
+---
+- name: Install Everything :)
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Wait 300 seconds for target connection to become reachable/usable
+      wait_for_connection:
+        sleep: 5
+        timeout: 300
+    - name: Gather facts
+      setup:
+    - include: tools.yaml
+    - include: campaigns.yaml
+   

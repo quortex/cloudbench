@@ -1,0 +1,17 @@
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes        
+  become: yes
+
+- name: Install curl, jq
+  apt:
+    pkg: 
+    - curl
+    - jq
+  become: yes
+
+- name: Install ffmpeg
+  apt:
+    pkg: 
+    - ffmpeg
+  become: yes  
