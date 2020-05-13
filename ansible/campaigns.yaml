@@ -16,5 +16,5 @@
 - name: Copy results
   fetch:
     src: /home/admin/full.csv
-    dest: ../results/full-{{ machine }}.csv
+    dest: ../results/full-{{ cloud_provider }}-{{ machine }}.csv
     flat: yes

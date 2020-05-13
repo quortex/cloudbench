@@ -9,7 +9,7 @@ GCP="$GCP_E2_FAMILY $GCP_N1_FAMILY $GCP_N2_FAMILY $GCP_C2_FAMILY"
 
 AWS_M5_FAMILY="aws:m5.4xlarge aws:m5a.4xlarge"
 AWS_M4_FAMILY="aws:m4.4xlarge"
-AWS_C5_FAMILY="aws:c5n.4xlarge"
+AWS_C5_FAMILY="aws:c5.4xlarge aws:c5n.4xlarge"
 AWS_C4_FAMILY="aws:c4.4xlarge"
 AWS="$AWS_M4_FAMILY $AWS_C5_FAMILY $AWS_C4_FAMILY"
 
@@ -25,7 +25,7 @@ for instance in $GCP $AWS; do
     pushd ansible && \
           cat inventory.yaml | sed "s/__HOST__/$ip/g" > ansible_inventory.yaml && \
           ANSIBLE_HOST_KEY_CHECKING=False \
-          ansible-playbook playbook.yaml -i ansible_inventory.yaml -u admin --extra-vars "machine=$machine" &&
+          ansible-playbook playbook.yaml -i ansible_inventory.yaml -u admin --extra-vars "machine=$machine cloud_provider=$cloud_provider" &&
     popd
     pushd infra/${cloud_provider} && \
         terraform destroy -auto-approve -var-file=${cloud_provider}.tfvars

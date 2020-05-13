@@ -38,9 +38,9 @@ mem_price=$(echo "$mem * $mem_unit_price" | bc)
 total=$(echo "$cpu_price + $mem_price" | bc)
 
 echo "$machine: $cpu vCPUs, $mem GB of RAM"
-echo "CPU Price ($model, $ per hour): $cpu_price"
-echo "RAM Price ($model, $ per hour): $mem_price"
-echo "Tot Price ($model, $ per hour): $total"
+echo "CPU Price ($model, $ per hour): $(echo $cpu_price | sed "s/\./,/g")"
+echo "RAM Price ($model, $ per hour): $(echo $mem_price | sed "s/\./,/g")"
+echo "Tot Price ($model, $ per hour): $(echo $total | sed "s/\./,/g")"
 
 
 
