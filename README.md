@@ -6,7 +6,7 @@ Comparing performance and price of cloud compute instances is a complex task, gi
 
 ### Under the hoods
 - A debian 10 image is used with the latest official ffmpeg (from the debian repos), as well as some sample streams from the French free to air Terrestrial service (HD): https://tsduck.io/streams/?name=france-dttv
-- The compute pricing are difficult to fetch automatically, hence prices are locally stored as of now (see [pricing/aws/frankfurt.csv](pricing/aws/frankfurt.csv) and [pricing/aws/frankfurt.csv](pricing/gco/netherlands.csv))
+- The compute pricing are difficult to fetch automatically, hence prices are locally stored as of now (see [pricing/aws/frankfurt.csv](pricing/aws/frankfurt.csv) and [pricing/gcp/netherlands.csv](pricing/gcp/netherlands.csv))
 
 ## Pre-requisites
 - Terraform, Ansible and jq need to be installed
