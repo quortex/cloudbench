@@ -10,6 +10,12 @@ variable "instance_type" {
   description = "The EC2 instance type for cloudperf."
 }
 
+variable "arch" {
+  description = "The EC2 instance arch for cloudperf."
+  default     = "amd64"
+}
+
+
 variable "ssh_user" {
   description = "The ssh user."
   default     = "admin"

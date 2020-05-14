@@ -7,7 +7,7 @@ data "aws_ami" "debian" {
   most_recent = true
   filter {
     name   = "name"
-    values = ["debian-10-amd64*"]
+    values = [format("debian-10-%s*", var.arch)]
   }
 
   owners = ["136693071363"]
