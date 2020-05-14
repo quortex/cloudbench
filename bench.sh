@@ -17,11 +17,11 @@ GCP_N2D_FAMILY="gcp:n2d-highcpu-16"
 GCP_C2_FAMILY="gcp:c2-standard-16"
 GCP="$GCP_E2_FAMILY $GCP_N1_FAMILY $GCP_N2_FAMILY $GCP_C2_FAMILY $GCP_N2D_FAMILY"
 
-AWS_M5_FAMILY="aws:m5.4xlarge aws:m5a.4xlarge"
+AWS_M5_FAMILY="aws:m5.4xlarge aws:m5a.4xlarge aws:m5n.4xlarge"
 AWS_M4_FAMILY="aws:m4.4xlarge"
 AWS_C5_FAMILY="aws:c5.4xlarge aws:c5n.4xlarge"
 AWS_C4_FAMILY="aws:c4.4xlarge"
-AWS="$AWS_M4_FAMILY $AWS_C5_FAMILY $AWS_C4_FAMILY"
+AWS="$AWS_M5_FAMILY $AWS_M4_FAMILY $AWS_C5_FAMILY $AWS_C4_FAMILY"
 
 #############################################################################################
 for instance in $GCP $AWS; do 
