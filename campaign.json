@@ -5,7 +5,22 @@
     "https://tsduck.io/streams/france-dttv/tnt-uhf35-586MHz-2019-01-22.ts"  
   ],
   "profiles": [
-    "1920x1080@6000000"
+    {
+      "name": "single",
+      "ladder": [
+        "1920x1080@6000000"
+      ]
+    }
+    ,
+    {
+      "name": "full",
+      "ladder": [
+        "1920x1080@6000000",
+        "1280x720@4000000",
+        "1024x576@2000000",
+        "640x360@800000"
+      ]
+    }
   ],
   "encodings": [
     {

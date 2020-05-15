@@ -35,4 +35,3 @@ a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x208;1920
 - Azure support
 - Automatic price update (static for now)
 - Launch tests in parallel
-- Support multi profile
