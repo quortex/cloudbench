@@ -32,7 +32,8 @@
             {
                 "type": "arm64",
                 "machines": [
-                    "a1.4xlarge"
+                    "a1.4xlarge",
+                    "m6g.4xlarge"
                 ]
             }       
         ]
