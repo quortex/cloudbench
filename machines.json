@@ -1,0 +1,40 @@
+[
+    {
+        "cloud_provider": "gcp",
+        "architectures": [
+            {
+                "type": "amd64",
+                "machines": [
+                    "e2-highcpu-16",
+                    "n1-highcpu-16",
+                    "n2-highcpu-16",
+                    "n2d-highcpu-16",
+                    "c2-standard-16"
+                ]
+            }
+        ]
+    },
+    {
+        "cloud_provider": "aws",
+        "architectures": [
+            {
+                "type": "amd64",
+                "machines": [
+                    "m5.4xlarge",
+                    "m5a.4xlarge",
+                    "m5n.4xlarge",
+                    "m4.4xlarge",
+                    "c5.4xlarge",
+                    "c5n.4xlarge",
+                    "c4.4xlarge"
+                ]
+            },
+            {
+                "type": "arm64",
+                "machines": [
+                    "a1.4xlarge"
+                ]
+            }       
+        ]
+    }
+]

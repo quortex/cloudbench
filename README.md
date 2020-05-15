@@ -13,13 +13,15 @@ Comparing performance and price of cloud compute instances is a complex task, gi
 - You must have a valid account on GCP, AWS and Azure
 
 ## How to use
-- *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [here](campaign.json))
-- The machines to test on can be edited in the "bench.sh" script itself
+- *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [campaign.json](campaign.json))
+- *machine* files are json files that describe the machines to be used for testing (see [machines.json](machines.json))
 ```console
-foo@bar:~$ ./bench.sh campaign.json
-foo@bar:~$ ./gather.sh results/full
+foo@bar:~$ ./bench.sh campaign.json machines.json
+foo@bar:~$ ./gather.sh results/campaign
 ```
 
 ## TODO
 - Azure support
 - Automatic price update (static for now)
+- Launch tests in parallel
+- Support multi profile
