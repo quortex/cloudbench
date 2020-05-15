@@ -18,6 +18,17 @@ Comparing performance and price of cloud compute instances is a complex task, gi
 ```console
 foo@bar:~$ ./bench.sh campaign.json machines.json
 foo@bar:~$ ./gather.sh results/campaign
+foo@bar:~$ cat results/campaign.csv | head
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x78;1920x1080@6000000;fast;35553
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x140;1920x1080@6000000;fast;38428
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x1a4;1920x1080@6000000;fast;36509
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x208;1920x1080@6000000;fast;41406
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x26c;1920x1080@6000000;fast;46119
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x78;1920x1080@6000000;fast;41040
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0xdc;1920x1080@6000000;fast;45156
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x140;1920x1080@6000000;fast;41275
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x1a4;1920x1080@6000000;fast;37311
+a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x208;1920x1080@6000000;fast;43401
 ```
 
 ## TODO
