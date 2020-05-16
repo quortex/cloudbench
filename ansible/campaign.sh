@@ -33,8 +33,9 @@ function bitrate {
 function launch() {
     local in=$1
     local video_pid=$2
-    local encoding=$3
-    local profile="$4"
+    local video_duration=$3
+    local encoding=$4
+    local profile="$5"
 
     local name=$(echo $profile | jq -r .name)
     ladder_len=$(echo $profile | jq '.ladder | length')
@@ -59,7 +60,7 @@ function launch() {
 
     st=$(date +%s%3N) && eval $cmd_common && en=$(date +%s%3N)
     total=$(($en-$st))
-    echo "$name;$(basename $in);$video_pid;$total"
+    echo "$(basename $in);$video_pid;$video_duration;$name;$total"
 }
 
 for file_idx in $(seq 0 $(length files)); do
@@ -67,11 +68,12 @@ for file_idx in $(seq 0 $(length files)); do
     file=$(basename $url)
     curl $url -o $file && ffprobe -v quiet $file -show_programs -print_format json > $file.json
     for video_pid in $(cat $file.json | jq -r '.programs[].streams[] | select(.codec_type == "video") | .id'); do
+        video_duration=$(cat $file.json | jq -r ".programs[].streams[] | select(.codec_type == \"video\") | select(.id == \"$video_pid\")" | jq -r .duration)
         for encoding_idx in $(seq 0 $(length encodings)); do
             encoding=$(item encodings $encoding_idx)
             for profile_idx in $(seq 0 $(length profiles)); do
                 profile=$(item profiles $profile_idx)
-                launch $file $video_pid "$encoding" "$profile"
+                launch $file $video_pid  $video_duration "$encoding" "$profile"
             done
             wait
         done
