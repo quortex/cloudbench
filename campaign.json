@@ -1,8 +1,12 @@
 {
   "files": [
-    "https://tsduck.io/streams/france-dttv/tnt-uhf25-506MHz-2019-01-22.ts",
-    "https://tsduck.io/streams/france-dttv/tnt-uhf30-546MHz-2019-01-22.ts",
-    "https://tsduck.io/streams/france-dttv/tnt-uhf35-586MHz-2019-01-22.ts"  
+    "https://storage.googleapis.com/bench-streams/extract-ground_france2_1586881985.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_france3_1586881985.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_lci_1586877328.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_tf1_1586877328.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_tf1sf_1586877328.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_tfx_1586879129.ts",
+    "https://storage.googleapis.com/bench-streams/extract-ground_tmc_1586879129.ts"
   ],
   "profiles": [
     {
@@ -13,12 +17,17 @@
     }
     ,
     {
-      "name": "full",
+      "name": "apple_rec",
       "ladder": [
+        "1920x1080@7800000",
         "1920x1080@6000000",
-        "1280x720@4000000",
-        "1024x576@2000000",
-        "640x360@800000"
+        "1280x720@4500000",
+        "1280x720@3000000",
+        "960x540@2000000",
+        "768x432@1100000",
+        "768x432@730000",
+        "640x360@365000",
+        "416x234@145000"
       ]
     }
   ],
