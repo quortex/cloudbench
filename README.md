@@ -6,7 +6,7 @@ Comparing performance and price of cloud compute instances is a complex task, gi
 
 ### Under the hoods
 - A debian 10 image is used with the latest official ffmpeg (from the debian repos), as well as some sample streams from the French free to air Terrestrial service (HD): https://tsduck.io/streams/?name=france-dttv
-- The compute pricing are difficult to fetch automatically, hence prices are locally stored as of now (see [pricing/aws/frankfurt.csv](pricing/aws/frankfurt.csv) and [pricing/gcp/netherlands.csv](pricing/gcp/netherlands.csv))
+- The compute pricing are difficult to fetch automatically, hence prices are locally stored as of now (see [pricing/aws/ireland.csv](pricing/aws/ireland.csv) and [pricing/gcp/netherlands.csv](pricing/gcp/netherlands.csv))
 
 ## Pre-requisites
 - Terraform, Ansible and jq need to be installed
@@ -16,7 +16,7 @@ Comparing performance and price of cloud compute instances is a complex task, gi
 - *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [campaign.json](campaign.json))
 - *machine* files are json files that describe the machines to be used for testing (see [machines.json](machines.json))
 ```console
-foo@bar:~$ ./bench.sh campaign.json machines.json
+foo@bar:~$ ./bench.sh -c campaign.json -m machines.json
 foo@bar:~$ ./gather.sh results/campaign
 foo@bar:~$ cat results/campaign.csv | head
 a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf25-506MHz-2019-01-22.ts;0x78;1920x1080@6000000;fast;35553
