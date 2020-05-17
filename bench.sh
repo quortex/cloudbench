@@ -64,13 +64,14 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
                 terraform apply -auto-approve -var-file=${cloud_provider}.tfvars \
                 &> "$LOG_DIR/${cloud_provider}-${arch}-${machine}.tfcreation" && \
                 ip=$(terraform output -json | jq -r .cloudperf_external_ip.value) && \
+                ssh_user=$(terraform output -json | jq -r .ssh_user.value) && \
             popd &> /dev/null && echo "[$(date)] Infrastructure created for $cloud_provider, $arch, $machine ..."
 
             echo "[$(date)] Launching ansible playbook for $cloud_provider, $arch, $machine ..."
             pushd $CUR_DIR/ansible &> /dev/null && \
                 cat inventory.yaml | sed "s/__HOST__/$ip/g" > ansible_inventory.yaml && \
                 ANSIBLE_HOST_KEY_CHECKING=False \
-                ansible-playbook playbook.yaml -i ansible_inventory.yaml -u admin \
+                ansible-playbook playbook.yaml -i ansible_inventory.yaml -u $ssh_user \
                                  --extra-vars "campaign=$SHORT_CAMPAIGN machine=$machine cloud_provider=$cloud_provider result_dir=$RESULT_DIR" \
                                  &> "$LOG_DIR/${cloud_provider}-${arch}-${machine}.ansible" && \
             popd &> /dev/null && echo "[$(date)] Ansible applied for $cloud_provider, $arch, $machine ..."

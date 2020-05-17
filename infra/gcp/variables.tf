@@ -23,7 +23,7 @@ variable "machine_type" {
 
 variable "ssh_user" {
   description = "The ssh user."
-  default     = "admin"
+  default     = "quortex"
 }
 
 variable "ssh_pub_key_file" {
