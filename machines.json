@@ -44,7 +44,6 @@
                 "type": "arm64",
                 "machines": [
                     "a1.4xlarge",
-                    "a1.metal",
                     "m6g.8xlarge"
                 ]
             }       
