@@ -71,7 +71,7 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
                 cat inventory.yaml | sed "s/__HOST__/$ip/g" > ansible_inventory.yaml && \
                 ANSIBLE_HOST_KEY_CHECKING=False \
                 ansible-playbook playbook.yaml -i ansible_inventory.yaml -u admin \
-                                 --extra-vars "campaign=$SHORT_CAMPAIGN machine=$machine cloud_provider=$cloud_provider" \
+                                 --extra-vars "campaign=$SHORT_CAMPAIGN machine=$machine cloud_provider=$cloud_provider result_dir=$RESULT_DIR" \
                                  &> "$LOG_DIR/${cloud_provider}-${arch}-${machine}.ansible" && \
             popd &> /dev/null && echo "[$(date)] Ansible applied for $cloud_provider, $arch, $machine ..."
 

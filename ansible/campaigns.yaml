@@ -1,20 +1,18 @@
 - name: Copy script
   copy:
     src: campaign.sh
-    dest: /home/admin
-    owner: admin
+    dest: /tmp
     mode: 0777
 - name: Copy campaign file
   copy:
     src: campaign.json
-    dest: /home/admin
-    owner: admin
+    dest: /tmp
     mode: 0600      
 
-- shell: ./campaign.sh campaign.json > campaign.csv
+- shell: /tmp/campaign.sh /tmp/campaign.json > /tmp/campaign.csv
 
 - name: Copy results
   fetch:
-    src: /home/admin/campaign.csv
-    dest: ../results/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.csv
+    src: /tmp/campaign.csv
+    dest: "{{ result_dir }}/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.csv"
     flat: yes
