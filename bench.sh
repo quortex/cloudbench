@@ -60,7 +60,7 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
             pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null && \
                 export TF_VAR_instance_type=$machine && \
                 export TF_VAR_arch=$arch && \
-                terraform init && \
+                ! [ -d .terraform ] && terraform init; \
                 terraform apply -auto-approve -var-file=${cloud_provider}.tfvars \
                 &> "$LOG_DIR/${cloud_provider}-${arch}-${machine}.tfcreation" && \
                 ip=$(terraform output -json | jq -r .cloudperf_external_ip.value) && \
