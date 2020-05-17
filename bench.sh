@@ -8,7 +8,7 @@ function help {
     echo "usage: bench.sh -h -c [CAMPAIGN_FILE] -m [MACHINE_FILE] -r [RESULT_DIR] -l [LOG_DIR]"
     echo "       [CAMPAIGN_FILE]: a json file describing the campaing to launch"
     echo "       [MACHINE_FILE]: a json file describing the machines to test on"
-    echo "       [RESULT_DIR]: Optional, a directory where results will be stored, defaults to result/"
+    echo "       [RESULT_DIR]: Optional, a directory where results will be stored, defaults to results/"
     echo "       [LOG_DIR]: Optional, a directory where logs will be stored, defaults to logs/"
     exit
 }
@@ -58,9 +58,9 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
             #Go for creating the infra, ansible and destroying the infra
             echo "[$(date)] Creating infrastructure for $cloud_provider, $arch, $machine ..."
             pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null && \
-                export TF_VAR_machine_type=$machine && \
                 export TF_VAR_instance_type=$machine && \
                 export TF_VAR_arch=$arch && \
+                terraform init && \
                 terraform apply -auto-approve -var-file=${cloud_provider}.tfvars \
                 &> "$LOG_DIR/${cloud_provider}-${arch}-${machine}.tfcreation" && \
                 ip=$(terraform output -json | jq -r .cloudperf_external_ip.value) && \

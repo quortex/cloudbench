@@ -1,0 +1,4 @@
+machine;ondemand;preemptible;1yrcommit;3yrcommit
+Standard_Da_v4;.107;.0214;.0701;.0462
+Standard_Fs;.113;.0226;.0766;.0520
+Standard_Fs_v2;.096;.0192;.0569;.0346

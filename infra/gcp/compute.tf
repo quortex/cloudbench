@@ -13,7 +13,7 @@ resource "google_compute_address" "cloudperf" {
 # The chart-museum VM
 resource "google_compute_instance" "cloudperf" {
   name         = var.instance_name
-  machine_type = var.machine_type
+  machine_type = var.instance_type
   zone         = var.zone
 
   description               = "A VM used to test cloud performances."

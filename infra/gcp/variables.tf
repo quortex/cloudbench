@@ -17,7 +17,7 @@ variable "instance_name" {
   default = "cloudperf-unnamed"
 }
 
-variable "machine_type" {
+variable "instance_type" {
   description = "The Compute engine VM machine type."
 }
 
