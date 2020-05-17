@@ -1,16 +1,16 @@
 # cloudbench
-A project to bench ffmpeg performances and price for the major cloud providers
+A project to bench ffmpeg performances and price for the major cloud providers.
 
 ## Concept
 Comparing performance and price of cloud compute instances is a complex task, given the diversity of architectures offered by the cloud providers. This project will deploy machines (using [Terraform](https://www.terraform.io) and code (using [ansible](https://www.ansible.com)) to bench the machine and gather the results in a CSV File.
 
 ### Under the hoods
-- A debian 10 image is used with the latest official ffmpeg (from the debian repos), as well as some sample streams from the French free to air Terrestrial service (HD): https://tsduck.io/streams/?name=france-dttv
+- A debian 10 image is used with the latest official [ffmpeg](https://ffmpeg.org/) (from the debian repos), as well as some sample streams from the French free to air Terrestrial service (HD): https://tsduck.io/streams/?name=france-dttv
 - The compute pricing are difficult to fetch automatically, hence prices are locally stored as of now (see [pricing/aws/ireland.csv](pricing/aws/ireland.csv) and [pricing/gcp/netherlands.csv](pricing/gcp/netherlands.csv))
 
 ## Pre-requisites
 - Terraform, Ansible and jq need to be installed
-- You must have a valid account on GCP, AWS and Azure
+- You must have a valid account on GCP, AWS and Azure (and you must be authentified through the appropriate cli tools: gcloud, az and aws)
 
 ## How to use
 - *campaign* files are json files that can easily modified to make more/less ffmpeg computing (see [campaign.json](campaign.json))
@@ -32,6 +32,5 @@ a1.4xlarge; ,4656; ,1375; ,2933; ,2011;tnt-uhf30-546MHz-2019-01-22.ts;0x208;1920
 ```
 
 ## TODO
-- Azure support
 - Automatic price update (static for now)
 - Launch tests in parallel
