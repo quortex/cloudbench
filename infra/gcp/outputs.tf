@@ -9,3 +9,7 @@ output "cloudperf_external_ip" {
 output "ssh_user" {
   value = var.ssh_user
 }
+
+output "cpu_platform" {
+  value = google_compute_instance.cloudperf.cpu_platform
+}

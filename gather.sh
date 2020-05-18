@@ -22,10 +22,23 @@ function make_price {
     echo $price
 }
 
-for file in $(ls $1*.csv); do
-    machine=$(echo $file |cut -d'-' -f 3- | rev | cut -d'.' -f 2- | rev)
+filelist=$(ls $1-*.csv)
+
+echo "Cloud Provider;Machine Type;File;Video PID;Duration;On-Demand Pricing (qxo);Preemptible Pricing (qxp);1 Year Commit Price (qx1);(3 Years Commit Price (qx3)" > $OUTPUT
+echo "Cloud Provider;Machine Type;Total Duration;On-Demand Pricing (qxo);Preemptible Pricing (qxp);1 Year Commit Price (qx1);(3 Years Commit Price (qx3)" > $SUMMARY
+for file in $filelist; do
+    full_machine=$(echo $file |cut -d'-' -f 3- | rev | cut -d'.' -f 2- | rev)
+    machine=$(echo $full_machine | cut -d'#' -f 1)
     cloud=$(echo $file |cut -d'-' -f 2)
     echo "Processing $file ..."
+
+
+    if [[ $full_machine =~ (.*)\>(.*) ]]; then
+        machine="${BASH_REMATCH[1]}"
+    else
+        machine=$full_machine
+    fi
+
     total_duration=0
     for line in $(cat $file); do
         duration=$(echo $line | rev | cut -d';' -f 1 | rev)
@@ -35,13 +48,13 @@ for file in $(ls $1*.csv); do
         preemptible_price=$(make_price $cloud $machine "preemptible" $duration)
         oneyrcommit_price=$(make_price $cloud $machine "1yrcommit" $duration)
         threeyrcommit_price=$(make_price $cloud $machine "3yrcommit" $duration)
-        echo "$machine;$line;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $OUTPUT
+        echo "$cloud;$full_machine;$line;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $OUTPUT
     done 
     ondemand_price=$(make_price $cloud $machine "ondemand" $total_duration)
     preemptible_price=$(make_price $cloud $machine "preemptible" $total_duration)
     oneyrcommit_price=$(make_price $cloud $machine "1yrcommit" $total_duration)
     threeyrcommit_price=$(make_price $cloud $machine "3yrcommit" $total_duration)
-    echo "$cloud;$machine;$total_duration;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $SUMMARY
+    echo "$cloud;$full_machine;$total_duration;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $SUMMARY
 done
 
 echo "Done writing $OUTPUT and $SUMMARY"

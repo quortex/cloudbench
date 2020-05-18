@@ -15,6 +15,7 @@ resource "google_compute_instance" "cloudperf" {
   name         = var.instance_name
   machine_type = var.instance_type
   zone         = var.zone
+  min_cpu_platform = var.min_cpu_platform 
 
   description               = "A VM used to test cloud performances."
   allow_stopping_for_update = false

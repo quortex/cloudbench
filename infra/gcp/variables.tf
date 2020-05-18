@@ -26,6 +26,11 @@ variable "ssh_user" {
   default     = "quortex"
 }
 
+variable "min_cpu_platform" {
+  description = "The minimal CPU to use"
+  default     = ""
+}
+
 variable "ssh_pub_key_file" {
   description = "The ssh public key file."
   default     = "~/.ssh/id_rsa.pub"
