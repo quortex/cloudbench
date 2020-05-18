@@ -42,6 +42,7 @@ function launch() {
 
     rc=$(echo $encoding | jq .rc)
     preset=$(echo $encoding | jq -r .quality)
+    gop=$(echo $encoding | jq -r .gopsize)
     deinterlacer=$(echo $encoding | jq -r .deinterlacer)
     cmd_rc="-x264-params nal-hrd=cbr"
 
@@ -54,7 +55,7 @@ function launch() {
     local cmd_common="$FFMPEG -y -i $in -map i:$video_pid \
                       -filter_complex '[0:v]$deint,split=$ladder_len$(for i in $(seq 0 $(($ladder_len-1))); do echo -n [out$i]; done)' \
                       $(for i in $(seq 0 $(($ladder_len-1))); do resolution=$(resolution "$profile" $i) && bitrate=$(bitrate "$profile" $i) && \
-                                                              echo -n "-map '[out$i]' -c:v libx264 -preset $preset -an -s $resolution \
+                                                              echo -n "-map '[out$i]' -c:v libx264 -g $gop -preset $preset -an -s $resolution \
                                                              -x264-params nal-hrd=cbr -bufsize $bitrate -maxrate $bitrate -minrate $bitrate \
                                                              -f mpegts /dev/null "; done)"
 
