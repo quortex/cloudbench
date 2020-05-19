@@ -32,13 +32,6 @@ for file in $filelist; do
     cloud=$(echo $file |cut -d'-' -f 2)
     echo "Processing $file ..."
 
-
-    if [[ $full_machine =~ (.*)\>(.*) ]]; then
-        machine="${BASH_REMATCH[1]}"
-    else
-        machine=$full_machine
-    fi
-
     total_duration=0
     for line in $(cat $file); do
         duration=$(echo $line | rev | cut -d';' -f 1 | rev)
