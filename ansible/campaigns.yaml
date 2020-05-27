@@ -7,7 +7,13 @@
   copy:
     src: campaign.json
     dest: /tmp
-    mode: 0600      
+    mode: 0600
+
+- name: Copy cpuinfo
+  fetch:
+    src: /proc/cpuinfo
+    dest: "{{ result_dir }}/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.cpuinfo"
+    flat: yes
 
 - shell: /tmp/campaign.sh /tmp/campaign.json > /tmp/campaign.csv
 
@@ -16,3 +22,5 @@
     src: /tmp/campaign.csv
     dest: "{{ result_dir }}/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.csv"
     flat: yes
+
+
