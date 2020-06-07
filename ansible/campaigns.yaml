@@ -15,7 +15,7 @@
     dest: "{{ result_dir }}/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.cpuinfo"
     flat: yes
 
-- shell: /tmp/campaign.sh /tmp/campaign.json > /tmp/campaign.csv
+- shell: /tmp/campaign.sh /tmp/campaign.json /tmp/campaign.csv
 
 - name: Copy results
   fetch:

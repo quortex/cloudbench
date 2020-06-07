@@ -2,6 +2,9 @@
 
 FFMPEG=ffmpeg
 campaign=$1
+output=$2
+
+rm -f $output
 
 function length {
     count=$(cat $campaign | jq .$1 | jq length)
@@ -62,7 +65,7 @@ function launch() {
 
     st=$(date +%s%3N) && eval $cmd_common && en=$(date +%s%3N)
     total=$(($en-$st))
-    echo "$(basename $in);$video_pid;$video_duration;$encoding_name;$name;$total"
+    echo "$(basename $in);$video_pid;$video_duration;$encoding_name;$name;$total" >> $output
 }
 
 for file_idx in $(seq 0 $(length files)); do
