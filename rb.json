@@ -1,0 +1,58 @@
+{
+  "files": [
+    "https://storage.googleapis.com/bench-streams/extract-ground_france2_1586881985.ts"
+  ],
+  "profiles": [
+    {
+      "name": "mutualized",
+      "ladder": [
+        "1024x576@2000000",
+        "704x396@1100000",
+        "576x324@600000",
+        "448x252@300000",
+        "416x234@200000"
+      ]
+    }
+    ,
+    {
+      "name": "profile1",
+      "ladder": [
+        "416x234@200000"
+      ]
+    },
+    {
+      "name": "profile2",
+      "ladder": [
+        "448x252@300000"
+      ]
+    }
+    ,
+    {
+      "name": "profile3",
+      "ladder": [
+        "576x324@600000"
+      ]
+    },
+    {
+      "name": "profile4",
+      "ladder": [
+        "704x396@1100000"
+      ]
+    },
+    {
+      "name": "profile5",
+      "ladder": [
+        "1024x576@2000000"
+      ]
+    }
+  ],
+  "encodings": [
+    {
+      "name": "faster",
+      "deinterlacer": "yadif",
+      "framerate": "25",
+      "quality": "faster",
+      "gopsize": "50"
+    }  
+  ]
+}
