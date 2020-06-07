@@ -35,7 +35,7 @@ function make_price {
 
 filelist=$(ls $1-*.csv)
 
-echo "Cloud Provider;Machine Type;File;Video PID;Input Duration;Processing Duration;On-Demand Pricing (qxo);Preemptible Pricing (qxp);1 Year Commit Price (qx1);(3 Years Commit Price (qx3)" > $OUTPUT
+echo "Cloud Provider;Machine Type;File;Video PID;Input Duration;Encoding Name;Processing Duration;On-Demand Pricing (qxo);Preemptible Pricing (qxp);1 Year Commit Price (qx1);(3 Years Commit Price (qx3)" > $OUTPUT
 echo "Cloud Provider;Machine Type;Total Duration;On-Demand Pricing (qxo);Preemptible Pricing (qxp);1 Year Commit Price (qx1);(3 Years Commit Price (qx3)" > $SUMMARY
 echo "Cloud Provider;Machine Type;On-Demand Pricing / h;Preemptible Pricing / h;1 Year Commit Price / h;3 Years Commit Price / h" > $PRICE
 

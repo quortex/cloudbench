@@ -41,6 +41,7 @@ function launch() {
     ladder_len=$(echo $profile | jq '.ladder | length')
 
     rc=$(echo $encoding | jq .rc)
+    encoding_name=$(echo $encoding | jq -r .name)
     preset=$(echo $encoding | jq -r .quality)
     gop=$(echo $encoding | jq -r .gopsize)
     deinterlacer=$(echo $encoding | jq -r .deinterlacer)
@@ -56,12 +57,12 @@ function launch() {
                       -filter_complex '[0:v]$deint,split=$ladder_len$(for i in $(seq 0 $(($ladder_len-1))); do echo -n [out$i]; done)' \
                       $(for i in $(seq 0 $(($ladder_len-1))); do resolution=$(resolution "$profile" $i) && bitrate=$(bitrate "$profile" $i) && \
                                                               echo -n "-map '[out$i]' -c:v libx264 -g $gop -preset $preset -an -s $resolution \
-                                                             -x264-params nal-hrd=cbr -bufsize $bitrate -maxrate $bitrate -minrate $bitrate \
+                                                             -x264-params nal-hrd=cbr -b:v $bitrate -bufsize $bitrate -maxrate $bitrate -minrate $bitrate \
                                                              -f mpegts /dev/null "; done)"
 
     st=$(date +%s%3N) && eval $cmd_common && en=$(date +%s%3N)
     total=$(($en-$st))
-    echo "$(basename $in);$video_pid;$video_duration;$name;$total"
+    echo "$(basename $in);$video_pid;$video_duration;$encoding_name;$name;$total"
 }
 
 for file_idx in $(seq 0 $(length files)); do
