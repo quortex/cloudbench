@@ -9,9 +9,11 @@
     dest: /tmp
     mode: 0600
 
+- shell: cat /proc/cpuinfo > /tmp/cpuinfo
+
 - name: Copy cpuinfo
   fetch:
-    src: /proc/cpuinfo
+    src: /tmp/cpuinfo
     dest: "{{ result_dir }}/{{ campaign }}-{{ cloud_provider }}-{{ machine }}.cpuinfo"
     flat: yes
 
