@@ -3,6 +3,7 @@
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 LOG_DIR="$CUR_DIR/logs"
 RESULT_DIR="$CUR_DIR/results"
+FFMPEG_VERSION=4.2.2
 
 function help {
     echo "usage: bench.sh -h -c [CAMPAIGN_FILE] -m [MACHINE_FILE] -r [RESULT_DIR] -l [LOG_DIR]"
@@ -80,29 +81,27 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
             # Create infra
 
             echo "[$(date)] Creating infrastructure for $cloud_provider, $arch, $name ..."
-            pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null && \
-                ! [ -d .terraform ] && terraform init; \
-                terraform apply -auto-approve -var-file=$tfvar -var-file=${cloud_provider}.tfvars \
-                &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.tfcreation" && \
-                ip=$(terraform output -json | jq -r .cloudperf_external_ip.value) && \
-                ssh_user=$(terraform output -json | jq -r .ssh_user.value) && \
+            pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null
+                ! [ -d .terraform ] && terraform init
+                terraform apply -auto-approve -var-file=$tfvar -var-file=${cloud_provider}.tfvars &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.tfcreation"
+                ip=$(terraform output -json | jq -r .cloudperf_external_ip.value) 
+                ssh_user=$(terraform output -json | jq -r .ssh_user.value)
             popd &> /dev/null && echo "[$(date)] Infrastructure created for $cloud_provider, $arch, $name ..."
 
             # Ansible
             echo "[$(date)] Launching ansible playbook for $cloud_provider, $arch, $name ..."
-            pushd $CUR_DIR/ansible &> /dev/null && \
-                cat inventory.yaml | sed "s/__HOST__/$ip/g" > ansible_inventory.yaml && \
+            pushd $CUR_DIR/ansible &> /dev/null
+                cat inventory.yaml | sed "s/__HOST__/$ip/g" > ansible_inventory.yaml
                 ANSIBLE_HOST_KEY_CHECKING=False \
                 ansible-playbook playbook.yaml -i ansible_inventory.yaml -u $ssh_user \
-                                 --extra-vars "campaign=$SHORT_CAMPAIGN machine=$name cloud_provider=$cloud_provider result_dir=$RESULT_DIR" \
-                                 &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.ansible" && \
+                                 --extra-vars "campaign=$SHORT_CAMPAIGN machine=$name arch=$arch cloud_provider=$cloud_provider result_dir=$RESULT_DIR ff_ver=$FFMPEG_VERSION" \
+                                 &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.ansible"
             popd &> /dev/null && echo "[$(date)] Ansible applied for $cloud_provider, $arch, $name ..."
 
             # Destroy infra
             echo "[$(date)] Destroying infrastructure for $cloud_provider, $arch, $name ..."
-            pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null && \
-                terraform destroy -auto-approve -var-file=$tfvar -var-file=${cloud_provider}.tfvars \
-                &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.tfdestruction" && \
+            pushd $CUR_DIR/infra/${cloud_provider} &> /dev/null
+            terraform destroy -auto-approve -var-file=$tfvar -var-file=${cloud_provider}.tfvars &> "$LOG_DIR/${cloud_provider}-${arch}-${name}.tfdestruction"
             popd &> /dev/null && echo "[$(date)] Infrastructure destroyed for $cloud_provider, $arch, $name ..."
         done
     done

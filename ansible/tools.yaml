@@ -10,8 +10,33 @@
     - jq
   become: yes
 
-- name: Install ffmpeg
-  apt:
-    pkg: 
-    - ffmpeg
-  become: yes  
+- name: Get ffmpeg
+  get_url:
+    url: "https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
+    dest: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
+
+- name: Extract ffmpeg
+  unarchive:
+    src: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
+    remote_src: yes
+    dest: /tmp/
+
+- name: Copy ffmpeg 
+  copy:
+    src: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static/ffmpeg"
+    remote_src: yes
+    dest: /usr/bin/
+    mode: 0777
+  become: yes
+
+- name: Copy ffprobe
+  copy:
+    src: /tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static/ffprobe
+    remote_src: yes
+    dest: /usr/bin/
+    mode: 0777
+  become: yes
+
+- name: reset ssh connection
+  meta: reset_connection
+  
