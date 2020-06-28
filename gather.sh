@@ -40,9 +40,9 @@ echo "Cloud Provider;Machine Type;Total Duration;On-Demand Pricing (qxo);Preempt
 echo "Cloud Provider;Machine Type;On-Demand Pricing / h;Preemptible Pricing / h;1 Year Commit Price / h;3 Years Commit Price / h" > $PRICE
 
 for file in $filelist; do
-    full_machine=$(echo $file |cut -d'-' -f 3- | rev | cut -d'.' -f 2- | rev)
-    machine=$(echo $full_machine | cut -d'#' -f 1)
-    cloud=$(echo $file |cut -d'-' -f 2)
+    full_machine=$(echo $file | cut -d'-' -f 2- | rev | cut -d'.' -f 2- | rev)
+    machine=$(echo $full_machine | cut -d'-' -f 2-)
+    cloud=$(echo $full_machine |cut -d'-' -f 1)
     echo "Processing $file ..."
 
     ondemand_price=$(get_raw_price $cloud $machine "ondemand")
@@ -56,13 +56,12 @@ for file in $filelist; do
     for line in $(cat $file); do
         duration=$(echo $line | rev | cut -d';' -f 1 | rev)
         total_duration=$(($total_duration + $duration))
-
         ondemand_price=$(make_price $cloud $machine "ondemand" $duration)
         preemptible_price=$(make_price $cloud $machine "preemptible" $duration)
         oneyrcommit_price=$(make_price $cloud $machine "1yrcommit" $duration)
         threeyrcommit_price=$(make_price $cloud $machine "3yrcommit" $duration)
         echo "$cloud;$full_machine;$line;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $OUTPUT
-    done 
+    done
     ondemand_price=$(make_price $cloud $machine "ondemand" $total_duration)
     preemptible_price=$(make_price $cloud $machine "preemptible" $total_duration)
     oneyrcommit_price=$(make_price $cloud $machine "1yrcommit" $total_duration)
