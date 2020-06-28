@@ -5,58 +5,7 @@
             {
                 "type": "amd64",
                 "machines": [
-                    {
-                        "name": "n1-highcpu-16#IvyBridge",
-                        "vars": [
-                            {
-                                "key": "instance_type",
-                                "value": "n1-highcpu-16"
-                            },
-                            {
-                                "key": "min_cpu_platform",
-                                "value": "Intel Ivy Bridge"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "n1-highcpu-16#SandyBridge",
-                        "vars": [
-                            {
-                                "key": "instance_type",
-                                "value": "n1-highcpu-16"
-                            },
-                            {
-                                "key": "min_cpu_platform",
-                                "value": "Intel Sandy Bridge"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "n1-highcpu-16#Haswell",
-                        "vars": [
-                            {
-                                "key": "instance_type",
-                                "value": "n1-highcpu-16"
-                            },
-                            {
-                                "key": "min_cpu_platform",
-                                "value": "Intel Haswell"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "n1-highcpu-16#Broadwell",
-                        "vars": [
-                            {
-                                "key": "instance_type",
-                                "value": "n1-highcpu-16"
-                            },
-                            {
-                                "key": "min_cpu_platform",
-                                "value": "Intel Broadwell"
-                            }
-                        ]
-                    },
+                    "n1-highcpu-16",
                     "e2-highcpu-16",
                     "n2-highcpu-16",
                     "n2d-highcpu-16",
@@ -71,20 +20,15 @@
             {
                 "type": "amd64",
                 "machines": [
-                    "m5.4xlarge",
-                    "m5a.4xlarge",
-                    "m5n.4xlarge",
-                    "m4.4xlarge",
                     "c5.4xlarge",
-                    "c5n.4xlarge",
+                    "c5a.4xlarge",
                     "c4.4xlarge"
                 ]
             },
             {
                 "type": "arm64",
                 "machines": [
-                    "a1.4xlarge",
-                    "m6g.4xlarge"
+                    "c6g.4xlarge"
                 ]
             }       
         ]
