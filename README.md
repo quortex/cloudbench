@@ -2,7 +2,7 @@
 A project to bench ffmpeg performances and price for the major cloud providers.
 
 ## Concept
-Comparing performance and price of cloud compute instances is a complex task, given the diversity of architectures offered by the cloud providers. This project will deploy machines (using [Terraform](https://www.terraform.io) and code (using [ansible](https://www.ansible.com)) to bench the machine and gather the results in a CSV File.
+Comparing performance and price of cloud compute instances is a complex task, given the diversity of architectures offered by the cloud providers. This project will deploy machines (using [Terraform](https://www.terraform.io)) and code (using [ansible](https://www.ansible.com)) to bench the machine and gather the results in a CSV File.
 
 ### Under the hoods
 - A debian 10 image is used with the latest official [ffmpeg](https://ffmpeg.org/) (from the debian repos)
