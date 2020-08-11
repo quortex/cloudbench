@@ -3,7 +3,7 @@
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 LOG_DIR="$CUR_DIR/logs"
 RESULT_DIR="$CUR_DIR/results"
-FFMPEG_VERSION=4.2.2
+FFMPEG_VERSION=latest
 
 function help {
     echo "usage: bench.sh -h -c [CAMPAIGN_FILE] -m [MACHINE_FILE] -r [RESULT_DIR] -l [LOG_DIR]"

@@ -13,17 +13,25 @@
 - name: Get ffmpeg
   get_url:
     url: "https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
-    dest: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
+    dest: "/tmp/ffmpeg-{{ arch }}-static.tar.xz"
+  when: ff_ver != "latest"
+
+- name: Get ffmpeg
+  get_url:
+    url: "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-{{arch}}-static.tar.xz"
+    dest: "/tmp/ffmpeg-{{ arch }}-static.tar.xz"
+  when: ff_ver == "latest"  
 
 - name: Extract ffmpeg
   unarchive:
-    src: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
+    src: "/tmp/ffmpeg-{{ arch }}-static.tar.xz"
     remote_src: yes
     dest: /tmp/
+    extra_opts: [--strip=1]
 
 - name: Copy ffmpeg 
   copy:
-    src: "/tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static/ffmpeg"
+    src: "/tmp/ffmpeg"
     remote_src: yes
     dest: /usr/bin/
     mode: 0777
@@ -31,7 +39,7 @@
 
 - name: Copy ffprobe
   copy:
-    src: /tmp/ffmpeg-{{ ff_ver }}-{{ arch }}-static/ffprobe
+    src: /tmp/ffprobe
     remote_src: yes
     dest: /usr/bin/
     mode: 0777
