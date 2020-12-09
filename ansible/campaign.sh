@@ -43,6 +43,10 @@ function launch() {
     local name=$(echo $profile | jq -r .name)
     ladder_len=$(echo $profile | jq '.ladder | length')
 
+    local para=$(echo $encoding | jq -r .parallels)
+    if [ "$para" == "null" ]; then
+        para=1
+    fi
     rc=$(echo $encoding | jq .rc)
     encoding_name=$(echo $encoding | jq -r .name)
     preset=$(echo $encoding | jq -r .quality)
@@ -56,15 +60,19 @@ function launch() {
         deint=""
     fi
 
-    local cmd_common="$FFMPEG -y -i $in -an \
-                      -filter_complex '[0:v]$deint,split=$ladder_len$(for i in $(seq 0 $(($ladder_len-1))); do echo -n [out$i]; done)' \
-                      $(for i in $(seq 0 $(($ladder_len-1))); do resolution=$(resolution "$profile" $i) && bitrate=$(bitrate "$profile" $i) && \
-                                                              echo -n "-map '[out$i]' -c:v:$i libx264 -g:v:$i $gop -preset:v:$i $preset -an -s:v:$i $resolution \
-                                                             -x264-params:v:$i nal-hrd=cbr -b:v:$i $bitrate -bufsize:v:$i $bitrate -maxrate:v:$i $bitrate -minrate:v:$i $bitrate \
-                                                            "; done) -f mpegts /dev/null"
+    parafile=$(mktemp)
 
-    echo "$cmd_common" | sed 's/ \+/ /g'
-    st=$(date +%s%3N) && eval $cmd_common && en=$(date +%s%3N)
+    for i in $(seq 1 $para); do
+        local cmd_common="$FFMPEG -y -i $in -an \
+                        -filter_complex '[0:v]$deint,split=$ladder_len$(for i in $(seq 0 $(($ladder_len-1))); do echo -n [out$i]; done)' \
+                        $(for i in $(seq 0 $(($ladder_len-1))); do resolution=$(resolution "$profile" $i) && bitrate=$(bitrate "$profile" $i) && \
+                                                                echo -n "-map '[out$i]' -c:v:$i libx264 -g:v:$i $gop -preset:v:$i $preset -an -s:v:$i $resolution \
+                                                                -x264-params:v:$i nal-hrd=cbr -b:v:$i $bitrate -bufsize:v:$i $bitrate -maxrate:v:$i $bitrate -minrate:v:$i $bitrate \
+                                                                "; done) -f mpegts /dev/null"
+
+        echo "$cmd_common" | sed 's/ \+/ /g' >> $parafile
+    done
+    st=$(date +%s%3N) && (parallel < $parafile) && en=$(date +%s%3N)
     total=$(($en-$st))
     echo "$(basename $in);$video_pid;$video_duration;$encoding_name;$name;$total" >> $output
 }

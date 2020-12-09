@@ -37,7 +37,8 @@
       "deinterlacer": "yadif",
       "framerate": "25",
       "quality": "fast",
-      "gopsize": "50"
+      "gopsize": "50",
+      "parallels": "1"
     }   
   ]
 }

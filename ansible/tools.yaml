@@ -3,11 +3,12 @@
     update_cache: yes        
   become: yes
 
-- name: Install curl, jq
+- name: Install curl, jq, parallel
   apt:
     pkg: 
     - curl
     - jq
+    - parallel
   become: yes
 
 - name: Get ffmpeg
