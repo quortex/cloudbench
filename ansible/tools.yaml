@@ -14,13 +14,13 @@
   get_url:
     url: "https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-{{ ff_ver }}-{{ arch }}-static.tar.xz"
     dest: "/tmp/ffmpeg-{{ arch }}-static.tar.xz"
-  when: ff_ver != "latest"
+  when: ff_ver != "latest" and ff_ver != "local"
 
 - name: Get ffmpeg
   get_url:
     url: "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-{{arch}}-static.tar.xz"
     dest: "/tmp/ffmpeg-{{ arch }}-static.tar.xz"
-  when: ff_ver == "latest"  
+  when: ff_ver == "latest" and ff_ver != "local"  
 
 - name: Extract ffmpeg
   unarchive:
@@ -28,6 +28,23 @@
     remote_src: yes
     dest: /tmp/
     extra_opts: [--strip=1]
+  when: ff_ver != "local"  
+
+- name: Copy local ffmpeg
+  copy:
+    src: ./ffmpeg
+    dest: /tmp/ffmpeg
+    mode: 0777
+  become: yes
+  when: ff_ver == "local"
+
+- name: Copy local ffprobe
+  copy:
+    src: ./ffprobe
+    dest: /tmp/ffprobe
+    mode: 0777
+  become: yes
+  when: ff_ver == "local"
 
 - name: Copy ffmpeg 
   copy:
