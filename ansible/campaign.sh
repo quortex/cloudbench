@@ -55,7 +55,7 @@ function launch() {
     cmd_rc="-x264-params nal-hrd=cbr"
 
     if [ "$deinterlacer" != "none" ]; then
-        deint="yadif"
+        deint="$deinterlacer"
     else
         deint=""
     fi
@@ -74,6 +74,7 @@ function launch() {
     done
     st=$(date +%s%3N) && (parallel < $parafile) && en=$(date +%s%3N)
     total=$(($en-$st))
+    rm -rf $parafile
     echo "$(basename $in);$video_pid;$video_duration;$encoding_name;$name;$total" >> $output
 }
 
@@ -92,4 +93,6 @@ for file_idx in $(seq 0 $(length files)); do
             wait
         done
     done
+    rm -rf $file
+    rm -rf $file.json
 done
