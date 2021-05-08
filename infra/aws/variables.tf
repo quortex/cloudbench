@@ -15,6 +15,9 @@ variable "arch" {
   default     = "amd64"
 }
 
+variable "usermail" {
+  description = "The usermail."
+}
 
 variable "ssh_user" {
   description = "The ssh user."

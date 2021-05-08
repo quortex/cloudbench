@@ -63,6 +63,7 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
 
             tfvar=$(mktemp)
             echo "arch = \"$arch\"" > $tfvar
+            echo "usermail = \"$(gcloud auth list --filter=status:ACTIVE --format="value(account)")\"" >> $tfvar
            
             if [ "$(echo $machine | jq -r type)" == "object" ]; then
                 name=$(echo $machine | jq -r .name)
