@@ -29,6 +29,7 @@ resource "aws_instance" "cloudperf" {
     Name = "CloudPerf",
     project = "prl",
     environment = "dev",
-    stop = "25"
+    stop = "25",
+    usermail = "marc@quortex.io"
   }
 }
