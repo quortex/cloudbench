@@ -26,6 +26,9 @@ resource "aws_instance" "cloudperf" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "CloudPerf"
+    Name = "CloudPerf",
+    project = "prl",
+    environment = "dev",
+    stop = "25"
   }
 }
