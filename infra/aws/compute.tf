@@ -26,10 +26,9 @@ resource "aws_instance" "cloudperf" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "CloudPerf",
-    project = "prl",
+    OwnerContact = var.usermail,
+    project = "cloudbench",
     environment = "dev",
-    stop = "25",
-    usermail = var.usermail
+    minimize_protection = "true"
   }
 }
