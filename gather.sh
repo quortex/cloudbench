@@ -49,7 +49,7 @@ function make_price {
     #echo "Duration: $duration"
 
     if [ "$cloud" == "aws" ]; then
-        item_price=$(./awsprice.sh "$machine" "$model")
+        item_price=$(./awsprice.sh -i "$machine" -l "$model")
     else
         item_price=0
     fi 
@@ -77,7 +77,6 @@ for file in $filelist; do
     #threeyrcommit_price=$(get_raw_price $cloud $machine "3yrcommit")    
 
     echo "$cloud;$full_machine;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $PRICE
-
     total_duration=0
     for line in $(cat $file); do
         duration=$(echo $line | rev | cut -d';' -f 1 | rev)
