@@ -10,6 +10,6 @@
         timeout: 300
     - name: Gather facts
       setup:
-    - include: tools.yaml
-    - include: campaigns.yaml
+    - import_tasks: tools.yaml
+    - import_tasks: campaigns.yaml
    
