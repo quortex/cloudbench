@@ -1,5 +1,5 @@
 resource "aws_key_pair" "cloudperf" {
-  key_name   = var.ssh_user
+  key_name   = "cloudbench"
   public_key = file(var.ssh_pub_key_file)
 }
 

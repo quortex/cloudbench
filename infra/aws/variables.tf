@@ -2,6 +2,10 @@ variable "region" {
   description = "The region in which to deploy resources."
 }
 
+variable "aws_profile" {
+  description = "The profile to use to authenticate"
+}
+
 variable "availability_zone" {
   description = "The availability zone in which to deploy resources."
 }
@@ -28,3 +32,5 @@ variable "ssh_pub_key_file" {
   description = "The ssh public key file."
   default     = "~/.ssh/id_rsa.pub"
 }
+
+
