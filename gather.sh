@@ -4,6 +4,7 @@ OUTPUT=$1-raw.csv
 SUMMARY=$1-summary.csv
 PRICE=$1-price.csv
 PACKAGE=$1.xls
+AWS_PROFILE=$2
 rm -f $OUTPUT
 rm -f $SUMMARY
 rm -f $PRICE
@@ -49,7 +50,7 @@ function make_price {
     #echo "Duration: $duration"
 
     if [ "$cloud" == "aws" ]; then
-        item_price=$(./awsprice.sh -i "$machine" -l "$model")
+        item_price=$(./awsprice.sh -i "$machine" -l "$model" -p "$AWS_PROFILE")
     else
         item_price=0
     fi 
@@ -71,10 +72,10 @@ for file in $filelist; do
     cloud=$(echo $full_machine |cut -d'-' -f 1)
     echo "Processing $file ..."
 
-    ondemand_price=$(./awsprice.sh -i $machine -l "ondemand")
-    preemptible_price=$(./awsprice.sh -i $machine -l "preemptible")
-    oneyrcommit_price=$(./awsprice.sh -i $machine -l "1yrcommit")
-    threeyrcommit_price=$(./awsprice.sh -i $machine -l "3yrcommit")    
+    ondemand_price=$(./awsprice.sh -i $machine -l "ondemand" -p "$AWS_PROFILE")
+    preemptible_price=$(./awsprice.sh -i $machine -l "preemptible" -p "$AWS_PROFILE")
+    oneyrcommit_price=$(./awsprice.sh -i $machine -l "1yrcommit" -p "$AWS_PROFILE")
+    threeyrcommit_price=$(./awsprice.sh -i $machine -l "3yrcommit" -p "$AWS_PROFILE")    
 
     echo "$cloud;$full_machine;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $PRICE
     total_duration=0

@@ -3,21 +3,25 @@
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 LOG_DIR="$CUR_DIR/logs"
 RESULT_DIR="$CUR_DIR/results"
+AWS_PROFILE=""
 FFMPEG_VERSION=latest
 
 function help {
-    echo "usage: bench.sh -h -c [CAMPAIGN_FILE] -m [MACHINE_FILE] -r [RESULT_DIR] -l [LOG_DIR]"
+    echo "usage: bench.sh -h -c [CAMPAIGN_FILE] -m [MACHINE_FILE] -r [RESULT_DIR] -l [LOG_DIR] -p [AWS_PROFILE]"
     echo "       [CAMPAIGN_FILE]: a json file describing the campaing to launch"
     echo "       [MACHINE_FILE]: a json file describing the machines to test on"
+    echo "       [AWS_PROFILE]: The AWS Profile to use to authenticate/"
     echo "       [RESULT_DIR]: Optional, a directory where results will be stored, defaults to results/"
     echo "       [LOG_DIR]: Optional, a directory where logs will be stored, defaults to logs/"
     exit
 }
 
-while getopts “c:m:r:l:h” opt; do
+while getopts “c:m:r:l:p:h” opt; do
   case $opt in
     h) help ;;
     c) CAMPAIGN=$OPTARG
+       ;;
+    p) AWS_PROFILE=$OPTARG
        ;;
     m) MACHINES=$OPTARG
        ;;
@@ -44,6 +48,12 @@ if ! [ -f "$MACHINES" ]; then
     help
 fi
 
+if [ "$AWS_PROFILE" == "" ]; then
+    echo "An AWS Profile is required to authenticate"
+    help
+fi
+
+
 SHORT_CAMPAIGN="${CAMPAIGN%.*}"
 mkdir -p $RESULT_DIR
 mkdir -p $LOG_DIR
@@ -64,6 +74,7 @@ for cloud_provider in $(cat $MACHINES | jq -r .[].cloud_provider); do
             tfvar=$(mktemp)
             echo "arch = \"$arch\"" > $tfvar
             echo "usermail = \"$(git config user.email)\"" >> $tfvar
+            echo "aws_profile = \"$AWS_PROFILE\"" > $tfvar
            
             if [ "$(echo $machine | jq -r type)" == "object" ]; then
                 name=$(echo $machine | jq -r .name)
