@@ -75,7 +75,7 @@ function get_instancesavingplans_price {
 function help {
     echo "Use this script to fetch the per hour price of AWS instances, for spot, on demand or instance saving plans"
     echo "usage: awsprice.sh -h -p [AWS_PROFILE_NAME] -i [INSTANCE_TYPE] -l [LEASE_PLAN]"
-    echo "       [AWS_PROFILE_NAME]: (Optional) an AWS profile name, that had access to the pricing API. Will use \"$AWS_PROFILE\" by default"
+    echo "       [AWS_PROFILE_NAME]: (Optional) an AWS profile name, that had access to the pricing API."
     echo "       [INSTANCE_TYPE]: an instance description, for example \"c6a.4xlarge\""
     echo "       [LEASE_PLAN]: Can be \"ondemand\", \"1yr\", \"3yr\" or \"spot\""
     exit
@@ -83,7 +83,7 @@ function help {
 
 # Script entry point
 
-AWS_PROFILE="quortex-dev/quortex.admin"
+AWS_PROFILE=""
 INSTANCE_TYPE=""
 LEASE_PLAN=""
 
@@ -106,6 +106,11 @@ fi
 if [ "$LEASE_PLAN" == "" ]; then
     help
 fi
+
+if [ "$AWS_PROFILE" == "" ]; then
+    help
+fi
+
 
 #echo "Will get price using profile \"$AWS_PROFILE\" for \"$INSTANCE_TYPE\" using lease plan \"$LEASE_PLAN\"" >&2
 
