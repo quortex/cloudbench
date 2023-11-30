@@ -71,10 +71,10 @@ for file in $filelist; do
     cloud=$(echo $full_machine |cut -d'-' -f 1)
     echo "Processing $file ..."
 
-    #ondemand_price=$(get_raw_price $cloud $machine "ondemand")
-    #preemptible_price=$(get_raw_price $cloud $machine "preemptible")
-    #oneyrcommit_price=$(get_raw_price $cloud $machine "1yrcommit")
-    #threeyrcommit_price=$(get_raw_price $cloud $machine "3yrcommit")    
+    ondemand_price=$(./awsprice.sh -i $machine -l "ondemand")
+    preemptible_price=$(./awsprice.sh -i $machine -l "preemptible")
+    oneyrcommit_price=$(./awsprice.sh -i $machine -l "1yrcommit")
+    threeyrcommit_price=$(./awsprice.sh -i $machine -l "3yrcommit")    
 
     echo "$cloud;$full_machine;$ondemand_price;$preemptible_price;$oneyrcommit_price;$threeyrcommit_price" >> $PRICE
     total_duration=0
