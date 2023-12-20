@@ -12,13 +12,14 @@ API_REGION="us-east-1"
 function get_ondemand_price {
 
     instance_type=$1
+    aws_region=$2
 
     # Use the AWS Pricing API to fetch the on-demand price.
     # Filters are applied to match the specific instance type, location, operating system, etc.
     # The jq command is used to parse the JSON output and extract the relevant pricing information.
     price=$(aws pricing get-products --profile $AWS_PROFILE --service-code AmazonEC2 --filters \
     'Type=TERM_MATCH,Field=instanceType,Value='\"$instance_type\"'' \
-    'Type=TERM_MATCH,Field=location,Value="EU (Ireland)"' \
+    'Type=TERM_MATCH,Field=regionCode,Value='\"$aws_region\"'' \
     'Type=TERM_MATCH,Field=operatingSystem,Value="Linux"' \
     'Type=TERM_MATCH,Field=preInstalledSw,Value=NA' \
     'Type=TERM_MATCH,Field=tenancy,Value=Shared' \
@@ -34,6 +35,7 @@ function get_ondemand_price {
 function get_spot_price {
 
     instance_type=$1
+    aws_region=$2
 
     # Use the AWS EC2 API to fetch the latest spot price history for the specified instance type.
     # The command gets the spot price history starting from the current time.
@@ -42,7 +44,7 @@ function get_spot_price {
         --product-descriptions "Linux/UNIX" \
         --instance-types "$instance_type" \
         --start-time $(date -u +"%Y-%m-%dT%H:%M:%S") \
-        --region eu-west-1 \
+        --region "$aws_region" \
         --query 'SpotPriceHistory[*]' | jq  '[.[].SpotPrice | tonumber] | add/length')
 
     echo $price
@@ -72,24 +74,29 @@ function get_instancesavingplans_price {
     echo $price
 }
 
+AWS_PROFILE=""
+INSTANCE_TYPE=""
+LEASE_PLAN=""
+REGION="eu-west-1"
+
 function help {
     echo "Use this script to fetch the per hour price of AWS instances, for spot, on demand or instance saving plans"
-    echo "usage: awsprice.sh -h -p [AWS_PROFILE_NAME] -i [INSTANCE_TYPE] -l [LEASE_PLAN]"
+    echo "usage: awsprice.sh -h -p [AWS_PROFILE_NAME] -i [INSTANCE_TYPE] -l [LEASE_PLAN] -r [AWS_REGION]"
     echo "       [AWS_PROFILE_NAME]: (Optional) an AWS profile name, that had access to the pricing API."
     echo "       [INSTANCE_TYPE]: an instance description, for example \"c6a.4xlarge\""
     echo "       [LEASE_PLAN]: Can be \"ondemand\", \"1yr\", \"3yr\" or \"spot\""
+    echo "       [REGION]: An AWS region, defaults to $REGION if ommited"
     exit
 }
 
 # Script entry point
 
-AWS_PROFILE=""
-INSTANCE_TYPE=""
-LEASE_PLAN=""
 
-while getopts “p:i:l:h” opt; do
+while getopts “r:p:i:l:h” opt; do
   case $opt in
     h) help ;;
+    r) REGION=$OPTARG
+       ;;
     p) AWS_PROFILE=$OPTARG
        ;;
     i) INSTANCE_TYPE=$OPTARG
@@ -111,10 +118,7 @@ if [ "$AWS_PROFILE" == "" ]; then
     help
 fi
 
-
-#echo "Will get price using profile \"$AWS_PROFILE\" for \"$INSTANCE_TYPE\" using lease plan \"$LEASE_PLAN\"" >&2
-
-CACHE_FILE=".awsprice/${LEASE_PLAN}-${INSTANCE_TYPE}"
+CACHE_FILE=".awsprice/${LEASE_PLAN}-${INSTANCE_TYPE}-${REGION}"
 
 price=""
 
@@ -133,16 +137,16 @@ if [ "$price" == "" ]; then
     # The script supports different pricing types: ondemand, 1yr, 3yr, and spot.
     case $LEASE_PLAN in
         ondemand)
-            price=$(get_ondemand_price "$INSTANCE_TYPE")
+            price=$(get_ondemand_price "$INSTANCE_TYPE" "$REGION")
             ;;
         1yr)
-            price=$(get_instancesavingplans_price "$INSTANCE_TYPE" "$LEASE_PLAN")
+            price=$(get_instancesavingplans_price "$INSTANCE_TYPE" "$LEASE_PLAN" "$REGION")
             ;;
         3yr)
-            price=$(get_instancesavingplans_price "$INSTANCE_TYPE" "$LEASE_PLAN")
+            price=$(get_instancesavingplans_price "$INSTANCE_TYPE" "$LEASE_PLAN" "$REGION")
             ;;
         spot)
-            price=$(get_spot_price "$INSTANCE_TYPE")
+            price=$(get_spot_price "$INSTANCE_TYPE" "$REGION")
             ;;
         *)
             price=0
